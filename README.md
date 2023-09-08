@@ -66,4 +66,31 @@ it will run at port:5000
 
 now to browser at this url: http://localhost:5000/news
 
-#
+# Data fetching with getStaticProps()
+
+declare getStaticProps() function at index.js file (any file at pages folder) .
+
+```jsx
+export const getStaticProps = async () => {
+  const res = await fetch("http://localhost:5000/news");
+  const data = await res.json();
+  console.log(data);
+  return {
+    props: {
+      allNews: data,
+    },
+  };
+};
+```
+
+then access it’s data from other function
+
+```jsx
+export const HomePage = ({ allNews }) => {
+  console.log(allNews);
+  return <></>;
+};
+```
+
+> problems: the getStaticProps() function generates static files at build time. so if any data changes at database, the result won’t be updated at frontend.
+> solution: use getServerSideProps() function instead of getStaticProps() function. it will generate static files at runtime. so if any data changes at database, the result will be updated at frontend.
