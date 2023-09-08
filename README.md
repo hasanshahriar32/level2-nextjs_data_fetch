@@ -93,4 +93,5 @@ export const HomePage = ({ allNews }) => {
 ```
 
 > problems: the getStaticProps() function generates static files at build time. so if any data changes at database, the result won’t be updated at frontend.
+
 > solution: use getServerSideProps() function instead of getStaticProps() function. it will generate static files at runtime. so if any data changes at database, the result will be updated at frontend.
