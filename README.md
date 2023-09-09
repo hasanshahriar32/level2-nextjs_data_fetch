@@ -64,7 +64,7 @@ npm run json-server
 
 it will run at port:5000
 
-now to browser at this url: http://localhost:5000/news
+now to browser at this url: https://r7j3ddww-5000.inc1.devtunnels.ms/news
 
 # Data fetching with getStaticProps()
 
@@ -72,7 +72,7 @@ declare getStaticProps() function at index.js file (any file at pages folder) .
 
 ```jsx
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:5000/news");
+  const res = await fetch("https://r7j3ddww-5000.inc1.devtunnels.ms/news");
   const data = await res.json();
   console.log(data);
   return {
@@ -109,7 +109,7 @@ full code now,
 - getStaticProps() function
   ```jsx
   export const getStaticProps = async () => {
-    const res = await fetch("http://localhost:5000/news");
+    const res = await fetch("https://r7j3ddww-5000.inc1.devtunnels.ms/news");
     const data = await res.json();
     console.log(data);
     return {
@@ -127,7 +127,7 @@ full code now,
 
 ```jsx
 export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:5000/news");
+  const res = await fetch("https://r7j3ddww-5000.inc1.devtunnels.ms/news");
   const newses = await res.json();
   const paths = newses?.map((news) => ({
     params: { newsId: news.id.toString() },
@@ -137,7 +137,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const { params } = context;
-  const res = await fetch(`http://localhost:5000/news/${params.newsId}`);
+  const res = await fetch(
+    `https://r7j3ddww-5000.inc1.devtunnels.ms/news/${params.newsId}`
+  );
   const data = await res.json();
 
   return {

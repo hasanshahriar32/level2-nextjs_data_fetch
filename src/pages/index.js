@@ -28,7 +28,7 @@ HomePage.getLayout = function getLayout(page) {
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:5000/news");
+  const res = await fetch("https://r7j3ddww-5000.inc1.devtunnels.ms/news");
   const data = await res.json();
   console.log(data);
   return {
