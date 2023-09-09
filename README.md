@@ -95,3 +95,57 @@ export const HomePage = ({ allNews }) => {
 > problems: the getStaticProps() function generates static files at build time. so if any data changes at database, the result won’t be updated at frontend.
 
 > solution: use getServerSideProps() function instead of getStaticProps() function. it will generate static files at runtime. so if any data changes at database, the result will be updated at frontend.
+
+### incremental static regeneration (ISR)
+
+```
+revalidate: 10,
+```
+
+using this syntax tells the build process that the indicated component will be rebuilded again and again at 10 second duration.
+
+full code now,
+
+- getStaticProps() function
+  ```jsx
+  export const getStaticProps = async () => {
+    const res = await fetch("http://localhost:5000/news");
+    const data = await res.json();
+    console.log(data);
+    return {
+      props: {
+        allNews: data,
+      },
+      revalidate: 10,
+    };
+  };
+  ```
+
+## getStaticPaths() function for dynamic route
+
+### it is used for creating build pages for all dynamic routes
+
+```jsx
+export const getStaticPaths = async () => {
+  const res = await fetch("http://localhost:5000/news");
+  const newses = await res.json();
+  const paths = newses?.map((news) => ({
+    params: { newsId: news.id.toString() },
+  }));
+  return { paths, fallback: false };
+};
+
+export const getStaticProps = async (context) => {
+  const { params } = context;
+  const res = await fetch(`http://localhost:5000/news/${params.newsId}`);
+  const data = await res.json();
+
+  return {
+    props: { news: data },
+  };
+};
+```
+
+<https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths>
+
+#
