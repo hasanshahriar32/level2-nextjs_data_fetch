@@ -72,6 +72,7 @@ const fullNews = ({ news }) => {
               src={news?.image_url}
               fill
               alt="eagle_image"
+              objectFit="cover"
               style={{ grayScale: "-1" }}
             />
           </Col>
@@ -87,20 +88,30 @@ fullNews.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };
 
-export const getStaticPaths = async () => {
-  const res = await fetch("https://r7j3ddww-5000.inc1.devtunnels.ms/news");
-  const newses = await res.json();
-  const paths = newses?.map((news) => ({
-    params: { newsId: news.id.toString() },
-  }));
-  return { paths, fallback: false };
-};
+// export const getStaticPaths = async () => {
+//   const res = await fetch("http://localhost:5000/news");
+//   const newses = await res.json();
+//   const paths = newses?.map((news) => ({
+//     params: { newsId: news.id.toString() },
+//   }));
+//   return { paths, fallback: false };
+// fallback : false => 404 page
+// fallback : true => won't build all dynamic pages.. (if you have 1000 dynamic pages, it will build only 10 pages).. and if you go to the page that is not built, it will build that page and show it to you. (it will build the page on the server side). applicable for the pages that are not visited frequently and many pages are there.
+// fallback : "blocking" => it will build all the pages on the server side. (it will build the page on the server side). applicable for the pages that are visited frequently and many pages are there.
+// };
 
-export const getStaticProps = async (context) => {
+// export const getStaticProps = async (context) => {
+//   const { params } = context;
+//   const res = await fetch(`http://localhost:5000/news/${params.newsId}`);
+//   const data = await res.json();
+
+//   return {
+//     props: { news: data },
+//   };
+// };
+export const getServerSideProps = async (context) => {
   const { params } = context;
-  const res = await fetch(
-    `https://r7j3ddww-5000.inc1.devtunnels.ms/news/${params.newsId}`
-  );
+  const res = await fetch(`http://localhost:5000/news/${params.newsId}`);
   const data = await res.json();
 
   return {
